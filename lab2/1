@@ -1,0 +1,2 @@
+# !bin/bash
+ps -af | awk '{ if ($1 == "user") {print $2" "$8}}'
