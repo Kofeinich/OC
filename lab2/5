@@ -1,0 +1,19 @@
+# !/bin/bash
+./4 | sort -k3n | awk 'BEGIN { i = 0; ppid = 0; art = 0.0; avr = 0.0 }{
+	if (i == 0){
+		avr = 1.0
+		ppid = $3
+		art+=$5
+	}
+	else if ($3 != ppid){
+		print "Average_Sleeping_Children_of_Parents = " ppid "  is " art/avr
+		ppid =$3
+		art = $5
+		avr = 0.0
+	}
+	else{
+		avr = avr + 1;
+		art+=$5
+	}
+	print $0; i = i + 1;
+}'
