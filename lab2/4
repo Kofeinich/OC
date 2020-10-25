@@ -1,0 +1,9 @@
+# !/bin/bash
+for pid in $(ls /proc/ | grep "[[:digit:]]")
+do
+ppid="$(cat /proc/$pid/status | grep "PPid" | awk '{print $2}')"
+run="$(cat /proc/$pid/sched | grep "se.sum_exec_runtime" | awk '{print $3}')"
+sw="$(cat /proc/$pid/sched | grep "nr_switches" | awk '{print $3}')"
+art="$(echo "$run $sw" | awk '{print $1 / $2}')"
+echo "$pid : $ppid : $art"
+done
