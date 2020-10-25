@@ -1,2 +1,2 @@
-# !/bin/bash
+#!/bin/bash
 ps -ef | grep "/sbin/" | awk '{print $2}'
