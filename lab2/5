@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/bash
 ./4 | sort -k3n | awk 'BEGIN { i = 0; ppid = 0; art = 0.0; avr = 0.0 }{
 	if (i == 0){
 		avr = 1.0
