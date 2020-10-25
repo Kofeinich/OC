@@ -1,0 +1,11 @@
+# !/bin/bash
+opid=""; maxSize="";
+for pid in $(ls /proc/ | grep "[[:digit:]]")
+do
+tmpSize="$(cat /proc/$pid/status | grep "VmRSS" | awk '{print $2}')"
+if [[ "$tmpSize" -ge "$maxSize" ]]; then
+maxSize="$tmpSize"
+opid="$pid"
+fi
+done
+echo "$opid     :       $maxSize"
