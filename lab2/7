@@ -1,0 +1,38 @@
+# !/bin/bash
+touch file1; touch file2; touch file3;
+echo > file1
+
+for pid in $(ls /proc/ | grep "[[:digit:]]")
+do
+current="$(cat /proc/$pid/io | grep "rchar:" | awk '{print $2}')"
+echo "$pid $current" >> file1
+current=""
+done
+
+sleep 5
+
+echo > file2
+
+for pid1 in $(ls /proc/ | grep "[[:digit:]]")
+do
+current1="$(cat /proc/$pid1/io | grep "rchar:" | awk '{print $2}')"
+echo "$pid1 $current1" >> file2
+current1=""
+done
+
+echo > file3
+
+while IFS= read -r str
+do
+pid="$(echo $str | awk '{print $1}')"
+value="$(echo $str | awk '{print $2}')"
+old_value="$(cat file1 | grep "$pid " | awk '{print $2}')"
+echo $pid $value $old_value | awk '{ print $1, ($2 - $3) ,"\n" }' >> file3
+done < file2
+
+echo > file1
+
+cat file3 | sort -rnk 2 | head -n 3 >> file1
+rm file2
+rm file3
+
