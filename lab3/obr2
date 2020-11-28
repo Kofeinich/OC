@@ -1,0 +1,38 @@
+# !/bin/bash
+
+res=1
+com="+"
+
+TERM()
+{
+	echo "Finish"
+	exit 0
+}
+
+SIG1()
+{
+	com="+"
+}
+
+SIG2()
+{
+	com="*"
+}
+
+trap 'TERM' SIGTERM
+trap 'SIG1' USR1
+trap 'SIG2' USR2
+
+while true;
+do
+	case "$com" in
+		"+")
+			res=$(($res + 2))
+		;;
+		"*")
+			result=$(($res * 2))
+		;;
+	esac
+	echo $res
+	sleep 3
+done

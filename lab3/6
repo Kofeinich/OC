@@ -1,0 +1,4 @@
+# !/bin/bash
+
+sh obr2 & prog=$!
+sh generator2 $prog
