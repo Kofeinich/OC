@@ -1,0 +1,42 @@
+# !/bin/bash
+com="+"
+echo "Obrabotka"
+res=1
+tail -f pipe |
+while true;
+do
+	read line
+	case $line in
+		"+")
+			com="$line"
+			echo "Plus"
+		;;
+		"*")
+			com="$line"
+			echo "Um"
+		;;
+		"QUIT")
+			killall tail
+			echo "Quit"
+			exit 1;
+		;;
+		[0-9]*)
+			case $com in
+				"+")
+					res=$(($res + $line))
+					echo $res
+				;;
+				"*")
+					res=$(($res * $line))
+					echo $res
+				;;
+			esac
+	
+		;;
+		*)
+			killall tail
+			echo "Error : obr"
+			exit 2;
+		;;
+	esac
+done
