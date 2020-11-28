@@ -1,0 +1,4 @@
+# !/bin/bash
+mkfifo pipe
+sh obr & sh generator
+rm pipe

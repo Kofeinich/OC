@@ -1,0 +1,7 @@
+# !bin/bash
+sh cicle&pid0=$!
+sh cicle&pid1=$!
+sh cicle&pid2=$!
+
+renice +10 -p $pid0
+
