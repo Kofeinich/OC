@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/bash
 touch file1; touch file2; touch file3;
 echo > file1
 
