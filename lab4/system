@@ -1,0 +1,40 @@
+#! /bin/bash
+sh 1&
+pid1="$(jobs -p 1 | awk '{print $1}')"
+defM1="$(top | awk '{if ($1 == $pid1) {print $8}}')"
+sh 2&
+pid2="$(jobs -p 2 | awk '{print $2}')"
+defM2="$(top | awk '{if ($1 == $pid2) {print $8}}')"
+sh 3&
+pid3="$(jobs -p 3 | awk '{print $3}')"
+defM3="$(top | awk '{if ($1 == $pid3) {print $8}}')"
+
+while ("$flag" != "1")
+do
+	for  pid in $pid1 $pid2 $pid3
+	do
+		newMem="$(ps -o pid,pmem "$pid" | awk '{print $2}')"
+		if [[ "$pid" = "$pid1" ]]
+		then
+			let accMem=$defM1*2
+		fi
+		if [[ "$pid" = "$pid2" ]]
+		then
+			let accMem=$defM2*2
+		fi
+		if [[ "pid" = "$pid3" ]]
+		then
+			let accMem=$defM3*2
+		fi
+		if [[ $newMem >  $accMem ]]
+		then
+			echo "Warning" > rep.log
+			killall
+			exit 1;
+		fi
+	fi
+	sleep 1
+	defM1="$(top | awk '{if ($1 == $pid1) {print $8}}')"
+	defM2="$(top | awk '{if ($1 == $pid2) {print $8}}')"
+	defM3="$(top | awk '{if ($1 == $pid3) {print $8}}')"
+fi
