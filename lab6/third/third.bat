@@ -1,1 +1,1 @@
-FC service.txt buffer.txt > answer.txt
+FC service.txt buf.txt > answer.txt
