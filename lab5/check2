@@ -1,0 +1,20 @@
+# !bin/bash
+
+./mem.bash&pid=$!
+echo -e "Pid of mem.bash $pid\n" > fres2
+rm fres2
+rm fpid2
+while true
+do
+	top5pids=$(top -b -n 1 | head -12 | tail -n +8 | awk '{print ""$1""}' | paste -s -d "  ")
+	curPid=$(top -p $pid -b -n 1 | head -8 | tail -n + 8)
+	curPid=$(echo -e $curPid | awk '{print ""$11"  "$10"  "$5" "$6" "$7" "$9" "}' )	
+	freeMem=$(top -b -n 1 | head -4 | tail -n +4 | awk '{print ""$6""}')
+	s=$(top -b-n 1 | head -5 | tail -n +5 | awk '{print ""$5""}')
+	if ps -p $pid	> /dev/null
+	then
+		res=$(echo -e "$curPid $freeMem $s\n ")
+		echo $res >> fres2
+		echo $top5pids >> fpid2
+	fi
+done
